@@ -5,39 +5,39 @@
       "url": "/"
     },
     {
-      "name": "About",
+      "name": "AI Brand Visibility",
+      "url": "/categories/ai-brand-visibility"
+    },
+    {
+      "name": "GEO Strategy",
+      "url": "/categories/geo-strategy"
+    },
+    {
+      "name": "Resources",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Case Studies",
+          "url": "/categories/case-studies"
+        },
+        {
+          "name": "Guides",
+          "url": "/categories/guides"
+        },
+        {
+          "name": "Tools",
+          "url": "/categories/tools"
+        }
+      ]
+    },
+    {
+      "name": "About Olavi",
       "url": "/about"
     },
     {
       "name": "Contact",
       "url": "/contact"
-    },
-    {
-      "name": "Pages",
-      "url": "",
-      "hasChildren": true,
-      "children": [
-        {
-          "name": "Authors",
-          "url": "/authors"
-        },
-        {
-          "name": "Categories",
-          "url": "/categories"
-        },
-        {
-          "name": "Tags",
-          "url": "/tags"
-        },
-        {
-          "name": "Elements",
-          "url": "/elements"
-        },
-        {
-          "name": "Privacy Policy",
-          "url": "/privacy-policy"
-        }
-      ]
     }
   ],
   "footer": [
@@ -50,12 +50,12 @@
       "url": "/contact"
     },
     {
-      "name": "Elements",
-      "url": "/elements"
-    },
-    {
       "name": "Privacy Policy",
       "url": "/privacy-policy"
+    },
+    {
+      "name": "Terms of Service",
+      "url": "/terms-of-service"
     }
   ]
 }

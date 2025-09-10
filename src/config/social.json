@@ -1,9 +1,9 @@
 {
-  "facebook": "https://facebook.com/",
-  "twitter": "https://twitter.com/",
-  "instagram": "https://instagram.com/",
-  "youtube": "https://youtube.com/",
-  "linkedin": "https://linkedin.com/",
+  "facebook": "",
+  "twitter": "",
+  "instagram": "",
+  "youtube": "",
+  "linkedin": "https://linkedin.com/company/olavi-ai",
   "github": "",
   "gitlab": "",
   "medium": "",
@@ -21,10 +21,10 @@
   "vimeo": "",
   "tiktok": "",
   "foursquare": "",
-  "rss": "",
-  "email": "",
+  "rss": "/rss.xml",
+  "email": "randy@olavi.ai",
   "phone": "",
   "address": "",
   "skype": "",
-  "website": ""
+  "website": "https://olavi.ai"
 }

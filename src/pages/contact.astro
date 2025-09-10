@@ -4,11 +4,11 @@ import Base from "@/layouts/Base.astro";
 import { markdownify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
 import { getEntry } from "astro:content";
-import { FaAddressCard, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
+import { FaAddressCard, FaEnvelope } from "react-icons/fa";
 
 const entry = (await getEntry("pages", "contact")) as CollectionEntry<"pages">;
 const { contact_form_action } = config.params;
-const { address, email, phone } = config.contactinfo;
+const { email, website } = config.contactinfo;
 const { title, description, meta_title, image } = entry.data;
 ---
 
@@ -28,9 +28,9 @@ const { title, description, meta_title, image } = entry.data;
             <li>
               <div class="flex text-text-dark items-center text-xl">
                 <FaAddressCard className="mr-3 text-primary" />
-                <p class="font-semibold">Address</p>
+                <p class="font-semibold">Website</p>
               </div>
-              <p set:html={markdownify(address)} class="mt-2 leading-5 pl-8" />
+              <p set:html={markdownify(website)} class="mt-2 leading-5 pl-8" />
             </li>
             <li>
               <div class="flex text-text-dark items-center text-xl">
@@ -41,13 +41,6 @@ const { title, description, meta_title, image } = entry.data;
                 set:html={markdownify(email)}
                 class="mt-2 leading-5 pl-8 content"
               />
-            </li>
-            <li>
-              <div class="flex text-text-dark items-center text-xl">
-                <FaPhoneAlt className="mr-3 text-primary" />
-                <p class="font-semibold">Phone</p>
-              </div>
-              <p set:html={markdownify(phone)} class="mt-2 leading-5 pl-8" />
             </li>
           </ul>
         </div>
