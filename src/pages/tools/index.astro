@@ -1,0 +1,46 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+
+const tools = await getSinglePage("tools");
+const publishedTools = tools.filter((tool) => !tool.data.draft);
+---
+
+<Base
+  title="Free Marketing Tools | Olavi"
+  description="Free tools to help optimize your brand visibility in AI-powered search"
+>
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-12">
+        <h1 class="h2 mb-4">Free Marketing Tools</h1>
+        <p class="text-lg text-text max-w-2xl mx-auto">
+          Powerful tools to help you optimize your brand visibility in AI-powered search engines like ChatGPT, Perplexity, and Gemini.
+        </p>
+      </div>
+
+      {publishedTools.length > 0 ? (
+        <div class="row gy-5 gx-4">
+          {publishedTools.map((tool) => (
+            <div class="col-12 sm:col-6 lg:col-4">
+              <a
+                href={`/tools/${tool.id.replace(/\.(md|mdx)$/, "")}`}
+                class="block p-6 rounded-lg border border-border hover:border-primary transition duration-300 h-full"
+              >
+                <h3 class="h4 mb-2">{tool.data.title}</h3>
+                <p class="text-text">{tool.data.description}</p>
+                <span class="inline-block mt-4 text-primary font-medium">
+                  Try it free →
+                </span>
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-text text-lg">Tools coming soon! Check back later.</p>
+        </div>
+      )}
+    </div>
+  </section>
+</Base>

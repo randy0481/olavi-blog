@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "Olavi Blog | AI Brand Visibility in Generative Search",
-    "base_url": "https://blog.olavi.ai",
+    "base_url": "https://olavi.ai",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.png",

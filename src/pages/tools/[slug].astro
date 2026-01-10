@@ -1,0 +1,62 @@
+---
+import Base from "@/layouts/Base.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+import { render } from "astro:content";
+
+// Dynamic import for tool components
+const toolComponents: Record<string, any> = {
+  ExampleTool: (await import("@/layouts/tools/ExampleTool")).default,
+};
+
+export async function getStaticPaths() {
+  const tools = await getSinglePage("tools");
+
+  const paths = tools.map((tool) => ({
+    params: {
+      slug: tool.id.replace(/\.(md|mdx)$/, ""),
+    },
+    props: { tool },
+  }));
+  return paths;
+}
+
+const { tool } = Astro.props;
+const { title, meta_title, description, image, component } = tool.data;
+const { Content } = await render(tool);
+
+const ToolComponent = toolComponents[component];
+---
+
+<Base
+  title={meta_title || title}
+  description={description}
+  image={image}
+>
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-8">
+        <h1 class="h2 mb-4">{title}</h1>
+        <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
+      </div>
+
+      {ToolComponent && (
+        <div class="mb-12">
+          <ToolComponent client:load />
+        </div>
+      )}
+
+      <div class="prose max-w-none">
+        <Content />
+      </div>
+
+      <div class="mt-12 text-center">
+        <a
+          href="/tools"
+          class="inline-block text-primary hover:opacity-70 transition duration-300"
+        >
+          ← Back to all tools
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

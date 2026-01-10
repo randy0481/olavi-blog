@@ -68,10 +68,26 @@ const pagesCollection = defineCollection({
   }),
 });
 
+// Tools collection schema
+const toolsCollection = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "src/content/tools" }),
+  schema: z.object({
+    title: z.string(),
+    meta_title: z.string().optional(),
+    description: z.string(),
+    image: z.string().optional(),
+    category: z.string().default("general"),
+    featured: z.boolean().default(false),
+    draft: z.boolean().optional(),
+    component: z.string(),
+  }),
+});
+
 // Export collections
 export const collections = {
   posts: postsCollection,
   about: aboutCollection,
   authors: authorsCollection,
   pages: pagesCollection,
+  tools: toolsCollection,
 };

@@ -26,7 +26,7 @@ const { className, posts, fluid } = Astro.props;
       <div class={i === 0 && fluid != false ? "col-12" : "col-12 sm:col-6"}>
         {post.data.image && (
           <a
-            href={`/${post.id}`}
+            href={`/blog/${post.id}`}
             class="rounded-lg block hover:text-primary overflow-hidden group"
           >
             <Image
@@ -48,7 +48,7 @@ const { className, posts, fluid } = Astro.props;
               )
               .map((author) => (
                 <a
-                  href={`/authors/${slugify(author.data.title)}`}
+                  href={`/blog/authors/${slugify(author.data.title)}`}
                   class="flex items-center hover:text-primary font-medium"
                 >
                   {author.data.image && (
@@ -75,7 +75,7 @@ const { className, posts, fluid } = Astro.props;
               {post.data.categories.map((category, i: number) => (
                 <li class="inline-block">
                   <a
-                    href={`/categories/${slugify(category)}`}
+                    href={`/blog/categories/${slugify(category)}`}
                     class="mr-2 hover:text-primary font-medium"
                   >
                     {humanize(category)}
@@ -88,7 +88,7 @@ const { className, posts, fluid } = Astro.props;
         </ul>
         <h3 class="mb-4">
           <a
-            href={`/${post.id}`}
+            href={`/blog/${post.id}`}
             class="block hover:text-primary transition duration-300"
           >
             {post.data.title}
