@@ -1,5 +1,10 @@
 {
   "framework": "astro",
+  "rewrites": [
+    { "source": "/blog/:path*", "destination": "/blog/:path*" },
+    { "source": "/tools/:path*", "destination": "/tools/:path*" },
+    { "source": "/:path*", "destination": "https://authentic-humor-170672.framer.app/:path*" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
