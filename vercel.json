@@ -3,6 +3,7 @@
   "rewrites": [
     { "source": "/blog/:path*", "destination": "/blog/:path*" },
     { "source": "/tools/:path*", "destination": "/tools/:path*" },
+    { "source": "/", "destination": "https://authentic-humor-170672.framer.app/" },
     { "source": "/:path*", "destination": "https://authentic-humor-170672.framer.app/:path*" }
   ],
   "headers": [
