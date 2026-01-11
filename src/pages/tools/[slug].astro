@@ -6,6 +6,7 @@ import { render } from "astro:content";
 
 // Import all tool components here
 import ExampleTool from "@/layouts/tools/ExampleTool";
+import RobotsTxtGenerator from "@/layouts/tools/RobotsTxtGenerator";
 
 export async function getStaticPaths() {
   const tools = await getSinglePage("tools");
@@ -32,6 +33,7 @@ const { Content } = await render(tool);
   <ToolSingle tool={tool} Content={Content}>
     <Fragment slot="tool-component">
       {component === "ExampleTool" && <ExampleTool client:load />}
+      {component === "RobotsTxtGenerator" && <RobotsTxtGenerator client:load />}
     </Fragment>
   </ToolSingle>
 </Base>
