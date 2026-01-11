@@ -1,0 +1,70 @@
+---
+import config from "@/config/config.json";
+import { humanize } from "@/lib/utils/textConverter";
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  tools: CollectionEntry<"tools">[];
+  className?: string;
+};
+
+const { summary_length } = config.settings;
+const { className, tools } = Astro.props;
+
+// Sort: featured first, then alphabetically by title
+const sortedTools = [...tools].sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return a.data.title.localeCompare(b.data.title);
+});
+---
+
+<div
+  class={`row gy-5 gx-4 ${className} ${sortedTools.length === 1 ? "justify-center" : ""}`}
+>
+  {
+    sortedTools.map((tool) => (
+      <div class="col-12 sm:col-6 lg:col-4">
+        <a
+          href={`/tools/${tool.id.replace(/\.(md|mdx)$/, "")}`}
+          class="block h-full rounded-lg border border-border hover:border-primary transition duration-300 overflow-hidden group"
+        >
+          {tool.data.image && (
+            <div class="overflow-hidden">
+              <Image
+                class="group-hover:scale-[1.03] transition duration-300 w-full"
+                src={tool.data.image}
+                alt={tool.data.title}
+                width={445}
+                height={230}
+              />
+            </div>
+          )}
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-medium px-2 py-1 rounded bg-theme-light text-text">
+                {humanize(tool.data.category)}
+              </span>
+              {tool.data.featured && (
+                <span class="text-xs font-medium px-2 py-1 rounded bg-primary/10 text-primary">
+                  Featured
+                </span>
+              )}
+            </div>
+            <h3 class="h4 mb-2 group-hover:text-primary transition duration-300">
+              {tool.data.title}
+            </h3>
+            <p class="text-text text-sm mb-4">
+              {tool.data.description.slice(0, summary_length)}
+              {tool.data.description.length > summary_length && "..."}
+            </p>
+            <span class="inline-block text-primary font-medium text-sm">
+              Try it free →
+            </span>
+          </div>
+        </a>
+      </div>
+    ))
+  }
+</div>

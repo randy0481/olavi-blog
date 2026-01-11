@@ -1,9 +1,14 @@
 ---
+import config from "@/config/config.json";
 import Base from "@/layouts/Base.astro";
+import Pagination from "@/layouts/components/Pagination.astro";
+import Tools from "@/layouts/Tools.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 
-const tools = await getSinglePage("tools");
-const publishedTools = tools.filter((tool) => !tool.data.draft);
+const allTools = await getSinglePage("tools");
+const publishedTools = allTools.filter((tool) => !tool.data.draft);
+const totalPages = Math.ceil(publishedTools.length / config.settings.pagination);
+const currentTools = publishedTools.slice(0, config.settings.pagination);
 ---
 
 <Base
@@ -20,22 +25,10 @@ const publishedTools = tools.filter((tool) => !tool.data.draft);
       </div>
 
       {publishedTools.length > 0 ? (
-        <div class="row gy-5 gx-4">
-          {publishedTools.map((tool) => (
-            <div class="col-12 sm:col-6 lg:col-4">
-              <a
-                href={`/tools/${tool.id.replace(/\.(md|mdx)$/, "")}`}
-                class="block p-6 rounded-lg border border-border hover:border-primary transition duration-300 h-full"
-              >
-                <h3 class="h4 mb-2">{tool.data.title}</h3>
-                <p class="text-text">{tool.data.description}</p>
-                <span class="inline-block mt-4 text-primary font-medium">
-                  Try it free →
-                </span>
-              </a>
-            </div>
-          ))}
-        </div>
+        <>
+          <Tools tools={currentTools} className="mb-16" />
+          <Pagination section="tools" currentPage={1} totalPages={totalPages} />
+        </>
       ) : (
         <div class="text-center py-12">
           <p class="text-text text-lg">Tools coming soon! Check back later.</p>

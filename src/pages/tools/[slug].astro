@@ -1,12 +1,11 @@
 ---
 import Base from "@/layouts/Base.astro";
+import ToolSingle from "@/layouts/ToolSingle.astro";
 import { getSinglePage } from "@/lib/contentParser.astro";
 import { render } from "astro:content";
 
-// Dynamic import for tool components
-const toolComponents: Record<string, any> = {
-  ExampleTool: (await import("@/layouts/tools/ExampleTool")).default,
-};
+// Import all tool components here
+import ExampleTool from "@/layouts/tools/ExampleTool";
 
 export async function getStaticPaths() {
   const tools = await getSinglePage("tools");
@@ -23,8 +22,6 @@ export async function getStaticPaths() {
 const { tool } = Astro.props;
 const { title, meta_title, description, image, component } = tool.data;
 const { Content } = await render(tool);
-
-const ToolComponent = toolComponents[component];
 ---
 
 <Base
@@ -32,31 +29,9 @@ const ToolComponent = toolComponents[component];
   description={description}
   image={image}
 >
-  <section class="section">
-    <div class="container">
-      <div class="text-center mb-8">
-        <h1 class="h2 mb-4">{title}</h1>
-        <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
-      </div>
-
-      {ToolComponent && (
-        <div class="mb-12">
-          <ToolComponent client:load />
-        </div>
-      )}
-
-      <div class="prose max-w-none">
-        <Content />
-      </div>
-
-      <div class="mt-12 text-center">
-        <a
-          href="/tools"
-          class="inline-block text-primary hover:opacity-70 transition duration-300"
-        >
-          ← Back to all tools
-        </a>
-      </div>
-    </div>
-  </section>
+  <ToolSingle tool={tool} Content={Content}>
+    <Fragment slot="tool-component">
+      {component === "ExampleTool" && <ExampleTool client:load />}
+    </Fragment>
+  </ToolSingle>
 </Base>

@@ -3,7 +3,7 @@ title: "Example Tool"
 description: "This is a placeholder for your first tool"
 category: "general"
 featured: true
-draft: true
+draft: false
 component: "ExampleTool"
 ---
 

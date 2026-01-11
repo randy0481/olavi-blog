@@ -32,6 +32,7 @@ olavi-blog/
 ├── src/
 │   ├── content/           # Content collections (MDX/MD files)
 │   │   ├── posts/         # Blog posts
+│   │   ├── tools/         # Interactive tools
 │   │   ├── authors/       # Author profiles
 │   │   ├── pages/         # Static pages
 │   │   └── about/         # About page content
@@ -39,6 +40,9 @@ olavi-blog/
 │   │   ├── Base.astro     # Root HTML layout
 │   │   ├── PostSingle.astro # Single post layout
 │   │   ├── Posts.astro    # Posts listing layout
+│   │   ├── ToolSingle.astro # Single tool layout
+│   │   ├── Tools.astro    # Tools listing layout
+│   │   ├── tools/         # React tool components
 │   │   ├── components/    # Reusable Astro components
 │   │   ├── partials/      # Header, Footer
 │   │   └── shortcodes/    # MDX shortcodes (React)
@@ -82,6 +86,20 @@ Defined in `src/content.config.ts`:
   image?: string;
   description?: string;
   social?: { facebook?, twitter?, instagram? };
+}
+```
+
+### Tools Collection
+```typescript
+{
+  title: string;
+  meta_title?: string;
+  description: string;
+  image?: string;
+  category: string;      // e.g., "seo", "analytics", "content"
+  featured: boolean;     // Featured tools appear first
+  draft?: boolean;
+  component: string;     // Maps to React component name
 }
 ```
 
@@ -137,6 +155,34 @@ Defined in `src/content.config.ts`:
 1. Create `src/content/authors/author-slug.md`
 2. Add frontmatter (title, image, description, social)
 3. Add author image to `public/images/authors/`
+
+### Adding a New Tool
+1. Create markdown file: `src/content/tools/your-tool-slug.md`
+   ```yaml
+   ---
+   title: "Your Tool Name"
+   meta_title: "Your Tool Name | Olavi"
+   description: "Brief description for SEO and card display"
+   image: "/images/tools/your-tool-image.jpg"
+   category: "seo"
+   featured: false
+   draft: false
+   component: "YourToolComponent"
+   ---
+
+   Additional content about the tool goes here...
+   ```
+2. Create React component: `src/layouts/tools/YourToolComponent.tsx`
+3. Register component in `src/pages/tools/[slug].astro`:
+   - Add import: `import YourToolComponent from "@/layouts/tools/YourToolComponent";`
+   - Add conditional render in the template:
+     ```astro
+     {component === "YourToolComponent" && <YourToolComponent client:load />}
+     ```
+4. Add image (optional): `public/images/tools/your-tool-image.jpg`
+5. Run `npm run dev` - tool appears automatically at `/tools/your-tool-slug`
+
+**Note**: Tools are sorted with featured items first, then alphabetically. Pagination appears when 9+ tools exist.
 
 ### Using MDX Shortcodes
 Available shortcodes (auto-imported):

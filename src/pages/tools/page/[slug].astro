@@ -1,0 +1,53 @@
+---
+import config from "@/config/config.json";
+import Base from "@/layouts/Base.astro";
+import Pagination from "@/layouts/components/Pagination.astro";
+import Tools from "@/layouts/Tools.astro";
+import { getSinglePage } from "@/lib/contentParser.astro";
+
+const allTools = await getSinglePage("tools");
+const publishedTools = allTools.filter((tool) => !tool.data.draft);
+const totalPages = Math.ceil(publishedTools.length / config.settings.pagination);
+
+export async function getStaticPaths() {
+  const tools = await getSinglePage("tools");
+  const publishedTools = tools.filter((tool) => !tool.data.draft);
+  const totalPages = Math.ceil(publishedTools.length / config.settings.pagination);
+  const paths = [];
+
+  // Generate paths for pages 2 through N (page 1 is handled by index.astro)
+  for (let i = 1; i < totalPages; i++) {
+    paths.push({
+      params: {
+        slug: (i + 1).toString(),
+      },
+    });
+  }
+  return paths;
+}
+
+const { slug } = Astro.params;
+const currentPage = slug && !isNaN(Number(slug)) ? Number(slug) : 1;
+const indexOfLastTool = currentPage * config.settings.pagination;
+const indexOfFirstTool = indexOfLastTool - config.settings.pagination;
+const currentTools = publishedTools.slice(indexOfFirstTool, indexOfLastTool);
+---
+
+<Base
+  title={`Free Marketing Tools - Page ${currentPage} | Olavi`}
+  description="Free tools to help optimize your brand visibility in AI-powered search"
+>
+  <section class="section">
+    <div class="container">
+      <div class="text-center mb-12">
+        <h1 class="h2 mb-4">Free Marketing Tools</h1>
+        <p class="text-lg text-text max-w-2xl mx-auto">
+          Powerful tools to help you optimize your brand visibility in AI-powered search engines like ChatGPT, Perplexity, and Gemini.
+        </p>
+      </div>
+
+      <Tools tools={currentTools} className="mb-16" />
+      <Pagination section="tools" currentPage={currentPage} totalPages={totalPages} />
+    </div>
+  </section>
+</Base>
