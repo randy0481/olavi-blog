@@ -1,7 +1,8 @@
 ---
-import { humanize } from "@/lib/utils/textConverter";
-import { Image } from "astro:assets";
+import Share from "@/components/Share.astro";
+import { humanize, markdownify, slugify } from "@/lib/utils/textConverter";
 import type { CollectionEntry } from "astro:content";
+import { BiCategoryAlt } from "react-icons/bi";
 
 type Props = {
   tool: CollectionEntry<"tools">;
@@ -14,56 +15,56 @@ const { title, description, image, category, featured } = tool.data;
 
 <section class="section">
   <div class="container">
-    <!-- Header -->
-    <div class="text-center mb-8">
-      <div class="flex items-center justify-center gap-2 mb-4">
-        <span class="text-sm font-medium px-3 py-1 rounded-full bg-theme-light text-text">
-          {humanize(category)}
-        </span>
-        {featured && (
-          <span class="text-sm font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
-            Featured
-          </span>
-        )}
+    <article class="row justify-center">
+      <div class="md:col-10 text-center">
+        <h1 set:html={markdownify(title)} class="h2" />
+        <ul class="mt-4 flex flex-wrap items-center justify-center text-text">
+          <li class="mx-3 flex items-center flex-wrap">
+            <BiCategoryAlt className="mr-1 h-[18px] w-[18px] text-gray-600" />
+            <a
+              href={`/tools?category=${slugify(category)}`}
+              class="hover:text-primary font-medium"
+            >
+              {humanize(category)}
+            </a>
+          </li>
+          {featured && (
+            <li class="mx-3">
+              <span class="text-sm font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
+                Featured
+              </span>
+            </li>
+          )}
+        </ul>
       </div>
-      <h1 class="h2 mb-4">{title}</h1>
-      <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
-    </div>
 
-    <!-- Featured Image -->
-    {image && (
-      <div class="mb-8 rounded-lg overflow-hidden">
-        <Image
-          src={image}
-          alt={title}
-          width={1000}
-          height={500}
-          class="w-full"
-        />
+      <!-- Tool Component (replaces hero image) -->
+      <div class="col-12 mt-8 mb-2">
+        <slot name="tool-component" />
       </div>
-    )}
 
-    <!-- Interactive Tool Component (rendered via slot) -->
-    <div class="mb-12">
-      <slot name="tool-component" />
-    </div>
-
-    <!-- Markdown Content -->
-    <div class="prose max-w-none mb-12">
-      <Content />
-    </div>
-
-    <!-- Back Link -->
-    <div class="text-center border-t border-border pt-8">
-      <a
-        href="/tools"
-        class="inline-flex items-center text-primary hover:opacity-70 transition duration-300"
-      >
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Back to all tools
-      </a>
-    </div>
+      <div class="md:col-10">
+        <div class="content mb-16 text-left">
+          <Content />
+        </div>
+        <div class="flex flex-wrap items-center justify-between">
+          <a
+            href="/tools"
+            class="inline-flex items-center mr-4 mb-4 text-primary hover:opacity-70 transition duration-300"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to all tools
+          </a>
+          <Share
+            className="social-share mb-4"
+            title={title}
+            description={description}
+            slug={`tools/${tool.id}`}
+          />
+        </div>
+      </div>
+    </article>
   </div>
 </section>
